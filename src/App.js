@@ -8,18 +8,21 @@ import GameControl from './scripts/gamecontrol'
 var playerNameInput = React.createRef();
 var scoreInput = React.createRef();
 
+const width = 6;
+const height = 5;
+
 class App extends Component {
 
   constructor() {
     super();
 
     this.showHighScores();
+    let gameControl = new GameControl(width, height);
     this.state = {
       showHighScores: true,
       scores: [],
-      gamecontrol: new GameControl()
+      gameControl: gameControl,
     };
-
     this.showHighScores = this.showHighScores.bind(this);
     this.updateHighScore = this.updateHighScore.bind(this);
     this.handlePlayerMove = this.handlePlayerMove.bind(this);
@@ -75,10 +78,10 @@ class App extends Component {
       .catch((error) => { console.log(error) });
   }
 
-  handlePlayerMove(room){
-    this.state.gamecontrol.movePlayerToRoom(room);
+  handlePlayerMove(room) {
+    this.state.gameControl.movePlayerToRoom(room);
     this.setState({
-      gamecontrol: this.state.gamecontrol
+      gameControl: this.state.gameControl,
     });
   }
 
@@ -95,10 +98,10 @@ class App extends Component {
             <button onClick={this.updateHighScore}>Start Game</button>
             <button onClick={this.showHighScores}>Show High Scores</button>
             <div>
-              <Cave width={6} height={5} gamecontrol={this.state.gamecontrol}>
-                <Player roomNumber={this.state.gamecontrol.gameLocations.playerRoomNumber} />
+              <Cave width={width} height={height} gameControl={this.state.gameControl}>
+                <Player roomNumber={this.state.gameControl.gameLocations.playerRoomNumber} />
               </Cave>
-              <ControlPanel gamecontrol={this.state.gamecontrol} onHandlePlayerMove={this.handlePlayerMove} />
+              <ControlPanel gameControl={this.state.gameControl} onHandlePlayerMove={this.handlePlayerMove} />
             </div>
           </div>
         </header>

@@ -11,15 +11,14 @@ class Cave extends Component {
     this.state = {
       "width": this.props.width,
       "height": this.props.height,
-      "gamecontrol": this.props.gamecontrol,
+      "gameControl": this.props.gameControl,
     }
 
-    this.cave = new CaveGenerator(this.state.width, this.state.height);
-    this.roomRows = this.cave.createRooms();
+    this.roomRows = this.state.gameControl.caveGenerator.createRooms();
   }
 
   render() {
-    const gameLocations = this.state.gamecontrol.gameLocations;
+    const gameLocations = this.state.gameControl.gameLocations;
     return (
       <div className="cave">
         {this.roomRows.map(roomRow => (

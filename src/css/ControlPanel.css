@@ -8,6 +8,10 @@
     width: 50px;
     background-repeat: no-repeat;
     background-position: center;
+    background-color: slategray;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 /* These arrow icomages have the Flaticon license and are free to use. 
