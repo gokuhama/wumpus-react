@@ -26,8 +26,6 @@ class App extends Component {
     this.showHighScores = this.showHighScores.bind(this);
     this.updateHighScore = this.updateHighScore.bind(this);
     this.handlePlayerMove = this.handlePlayerMove.bind(this);
-
-    this.state.gameControl.movePlayerToRoom(25);
   }
 
   componentDidMount() {
