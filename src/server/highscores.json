@@ -20,13 +20,18 @@
         "timestamp": 1595966318490
     },
     {
+        "name": "fffff",
+        "score": 900,
+        "timestamp": 1596077017528
+    },
+    {
         "name": "David1",
-        "score": "620",
+        "score": 620,
         "timestamp": 1596048745732
     },
     {
         "name": "Sandwich",
-        "score": "500",
+        "score": 500,
         "timestamp": 1596048225033
     },
     {
@@ -40,13 +45,8 @@
         "timestamp": null
     },
     {
-        "name": "ttt",
-        "score": "125",
-        "timestamp": 1595992515340
-    },
-    {
-        "name": "Sun",
-        "score": 124,
-        "timestamp": 1595966469635
+        "name": "fffff",
+        "score": 126,
+        "timestamp": 1596077309093
     }
 ]

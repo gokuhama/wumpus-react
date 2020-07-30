@@ -37,7 +37,7 @@ class App extends Component {
   updateHighScore() {
     const score = {
       "name": playerNameInput.current.value,
-      "score": scoreInput.current.value,
+      "score": parseInt(scoreInput.current.value),
       "timestamp": Date.now()
     };
     // make api call
