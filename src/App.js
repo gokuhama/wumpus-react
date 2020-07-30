@@ -100,8 +100,6 @@ class App extends Component {
       showEnterName: false,
       showEndGame: false
     });
-
-    alert("Good luck " + playerNameInput.current.value + "!");
   }
 
   quitGame() {
