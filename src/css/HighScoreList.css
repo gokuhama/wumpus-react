@@ -32,15 +32,15 @@
 
 .list {
     border: 1px solid #999999;
-    background: lightblue;
-    display: block;
-    width: 20%;
-    height: 100%;
-    float: right;
+    background: lightgray;
+    /* display: block; */
+    width: 30%;
+    /* height: 100%; */
+    /* float: right; */
     /* position: fixed;
     top: 0px;
     right: 0px; */
-    z-index: 100;
+    /* z-index: 100; */
     margin: 10px;
  }
 

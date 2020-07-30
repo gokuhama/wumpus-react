@@ -4,6 +4,7 @@ import Cave from "./components/Cave";
 import Player from "./components/Player";
 import ControlPanel from "./components/ControlPanel";
 import GameControl from './scripts/gamecontrol'
+import './App.css'
 
 var playerNameInput = React.createRef();
 var scoreInput = React.createRef();
@@ -25,10 +26,9 @@ class App extends Component {
   constructor() {
     super();
 
-    this.showHighScores();
     let gameControl = new GameControl(width, height);
     this.state = {
-      showHighScores: true,
+      showHighScores: false,
       scores: [],
       gameControl: gameControl,
     };
@@ -99,20 +99,26 @@ class App extends Component {
   }
 
   showHighScores(init) {
-    // make api call
-    const self = this;
-    fetch('http://localhost:8081/gethighscores', {
-      crossDomain: true,
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
-      .then((data) => {
-        if (self._isMounted) {
-          self.setState({ showHighScores: true, scores: data });
-        }
+    if (!this.state.showHighScores) {
+      // make api call
+      const self = this;
+      fetch('http://localhost:8081/gethighscores', {
+        crossDomain: true,
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
       })
-      .catch((error) => { console.log(error) });
+        .then(res => res.json())
+        .then((data) => {
+          if (self._isMounted) {
+            self.setState({ showHighScores: true, scores: data });
+          }
+        })
+        .catch((error) => { console.log(error) });
+    }
+    else {
+      this.state.showHighScores = false;
+      this.setState({ scores: [] });
+    }
   }
 
   handlePlayerMove(room) {
@@ -126,14 +132,16 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <center><h1>Hunt The Wumpus!</h1></center>
-          {this.state.showHighScores && <HighScoreList scores={this.state.scores}></HighScoreList>}
+          <center><h1 className="title">Hunt The Wumpus!</h1></center>
           <div>
-            <span>Enter Name:</span>
-            <input ref={playerNameInput} type="text" />
-            <input ref={scoreInput} type="text" />
-            <button onClick={this.updateHighScore}>Start Game</button>
-            <button onClick={this.showHighScores}>Show High Scores</button>
+            <div>
+              <span className="title">Enter Name:</span>
+              <input ref={playerNameInput} type="text" />
+              <input ref={scoreInput} type="text" />
+            </div>
+            <div>
+              <button className="startButton" onClick={this.updateHighScore}>Start Game</button>
+            </div>
             <div>
               <Cave width={width} height={height} gameControl={this.state.gameControl}>
                 <Player roomNumber={this.state.gameControl.gameLocations.playerRoomNumber} />
@@ -141,11 +149,12 @@ class App extends Component {
               <ControlPanel gameControl={this.state.gameControl} onHandlePlayerMove={this.handlePlayerMove} />
             </div>
           </div>
+          <button className="highScoreButton" onClick={this.showHighScores}>{this.state.showHighScores ? "Hide" : "Show"} High Scores</button>
+          {this.state.showHighScores && <HighScoreList scores={this.state.scores}></HighScoreList>}
         </header>
       </div>
     );
   }
 }
-
 
 export default App;

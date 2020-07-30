@@ -20,8 +20,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  /* font-size: calc(10px + 2vmin); */
+  /* color: white; */
 }
 
 .App-link {
@@ -35,4 +35,16 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.startButton {
+  margin: 10px;
+}
+
+.highScoreButton{
+  margin: 10px;
+}
+
+.title{
+  color: white;
 }
