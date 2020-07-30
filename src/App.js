@@ -130,7 +130,7 @@ class App extends Component {
       timestamp: Date.now()
     };
     // make api call
-    return fetch('http://localhost:8081/setscore', {
+    return fetch('https://wumpus-api.azurewebsites.net/setscore', {
       crossDomain: true,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -147,7 +147,7 @@ class App extends Component {
     if (!this.state.showHighScores) {
       // make api call
       const self = this;
-      fetch('http://localhost:8081/gethighscores', {
+      fetch('https://wumpus-api.azurewebsites.net/gethighscores', {
         crossDomain: true,
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
