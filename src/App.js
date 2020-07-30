@@ -5,8 +5,6 @@ import Player from "./components/Player";
 import ControlPanel from "./components/ControlPanel";
 import GameControl from './scripts/gamecontrol'
 
-
-
 var playerNameInput = React.createRef();
 var scoreInput = React.createRef();
 
@@ -24,6 +22,7 @@ class App extends Component {
 
     this.showHighScores = this.showHighScores.bind(this);
     this.updateHighScore = this.updateHighScore.bind(this);
+    this.handlePlayerMove = this.handlePlayerMove.bind(this);
   }
 
   componentDidMount() {
@@ -49,21 +48,14 @@ class App extends Component {
     })
       .then(res => res.json())
       .then((data) => {
-        if(data > -1){
+        if (data > -1) {
           alert("Congratulations on a high score! You are #" + (data + 1));
         }
-        else{
+        else {
           alert("Too bad! You didn't get a high score.");
         }
       })
       .catch((error) => { alert(error) });
-    // const rank = 1;
-    // if (rank > -1) {
-    //   alert("Congratulations on a high score! You are #" + rank);
-    // }
-    // else {
-    //   alert("Too bad! You didn't get a high score.");
-    // }
   }
 
   showHighScores(init) {
@@ -83,6 +75,13 @@ class App extends Component {
       .catch((error) => { console.log(error) });
   }
 
+  handlePlayerMove(room){
+    this.state.gamecontrol.movePlayerToRoom(room);
+    this.setState({
+      gamecontrol: this.state.gamecontrol
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -95,10 +94,12 @@ class App extends Component {
             <input ref={scoreInput} type="text" />
             <button onClick={this.updateHighScore}>Start Game</button>
             <button onClick={this.showHighScores}>Show High Scores</button>
-            <Cave width={6} height={5} gamecontrol={this.state.gamecontrol}>
-              <Player roomNumber={this.state.gamecontrol.gameLocations.playerRoomNumber} />
-            </Cave>
-            <ControlPanel />
+            <div>
+              <Cave width={6} height={5} gamecontrol={this.state.gamecontrol}>
+                <Player roomNumber={this.state.gamecontrol.gameLocations.playerRoomNumber} />
+              </Cave>
+              <ControlPanel gamecontrol={this.state.gamecontrol} onHandlePlayerMove={this.handlePlayerMove} />
+            </div>
           </div>
         </header>
       </div>
