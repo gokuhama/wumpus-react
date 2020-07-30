@@ -9,14 +9,9 @@ import TriviaManagement from './triviamanagement'
 class GameControl {
 
     constructor(width, height) {
-        this._caveGenerator = new CaveGenerator(width, height);
-        this._player = new Player();
-        this._player.arrowCount = 3;
-        this._gameLocations = new GameLocations();
-        this._triviaManagement = new TriviaManagement();
-        this._goldCoinsLeft = 100;
-        this._statusText = "welcome to wumpus!";
-        this._connectedRooms = this.getConnectedRooms(0);
+        this.width = width;
+        this.height = height;
+        this.reset();
     }
 
     get caveGenerator() {
@@ -28,6 +23,17 @@ class GameControl {
 
     get gameLocations() {
         return this._gameLocations;
+    }
+
+    reset() {
+        this._caveGenerator = new CaveGenerator(this.width, this.height);
+        this._player = new Player();
+        this._player.arrowCount = 3;
+        this._gameLocations = new GameLocations();
+        this._triviaManagement = new TriviaManagement();
+        this._goldCoinsLeft = 100;
+        this._statusText = "welcome to wumpus!";
+        this._connectedRooms = this.getConnectedRooms(0);
     }
 
     movePlayerToRoom(newRoomNumber) {
@@ -57,7 +63,7 @@ class GameControl {
         return this._statusText;
     }
 
-    get connectedRooms(){
+    get connectedRooms() {
         return this._connectedRooms;
     }
 }

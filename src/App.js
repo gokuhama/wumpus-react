@@ -28,10 +28,13 @@ class App extends Component {
 
     let gameControl = new GameControl(width, height);
     this.state = {
+      gameStarted: false,
       showHighScores: false,
+      showEndGame: false,
       scores: [],
       gameControl: gameControl,
     };
+    this.startGame = this.startGame.bind(this);
     this.showHighScores = this.showHighScores.bind(this);
     this.updateHighScore = this.updateHighScore.bind(this);
     this.handlePlayerMove = this.handlePlayerMove.bind(this);
@@ -73,14 +76,35 @@ class App extends Component {
     }
   }
 
-  updateHighScore() {
+  startGame() {
+    if (!this.state.gameStarted) {
+      this.state.gameControl.reset();
+      this.setState({ "gameStarted": true, "showEndGame": false });
+    }
+    else {
+      const score = this.state.gameControl.player.GetCurrentScore();
+      let message = "Your score was " + score + ". ";
+      this.updateHighScore(playerNameInput.current.value, score)
+        .then((data) => {
+          if (data > -1) {
+            message += "Congratulations on a high score! You are #" + (data + 1);
+          }
+          else {
+            message += "Too bad! You didn't get a high score.";
+          }
+          this.setState({ "gameStarted": false, "showEndGame": true, "endGameMessage": message });
+        });
+    }
+  }
+
+  updateHighScore(playerName, playerScore) {
     const score = {
-      "name": playerNameInput.current.value,
-      "score": parseInt(scoreInput.current.value),
+      "name": playerName,
+      "score": playerScore,
       "timestamp": Date.now()
     };
     // make api call
-    fetch('http://localhost:8081/setscore', {
+    return fetch('http://localhost:8081/setscore', {
       crossDomain: true,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -88,12 +112,7 @@ class App extends Component {
     })
       .then(res => res.json())
       .then((data) => {
-        if (data > -1) {
-          alert("Congratulations on a high score! You are #" + (data + 1));
-        }
-        else {
-          alert("Too bad! You didn't get a high score.");
-        }
+        return data;
       })
       .catch((error) => { alert(error) });
   }
@@ -137,16 +156,16 @@ class App extends Component {
             <div>
               <span className="title">Enter Name:</span>
               <input ref={playerNameInput} type="text" />
-              <input ref={scoreInput} type="text" />
             </div>
             <div>
-              <button className="startButton" onClick={this.updateHighScore}>Start Game</button>
+              <button className="startButton" onClick={this.startGame}>{this.state.gameStarted ? "End" : "Start"} Game</button>
             </div>
+            {this.state.showEndGame && <span className="title">{this.state.endGameMessage}</span>}
             <div>
               <Cave width={width} height={height} gameControl={this.state.gameControl}>
-                <Player roomNumber={this.state.gameControl.gameLocations.playerRoomNumber} />
+                {this.state.gameStarted && <Player roomNumber={this.state.gameControl.gameLocations.playerRoomNumber} />}
               </Cave>
-              <ControlPanel gameControl={this.state.gameControl} onHandlePlayerMove={this.handlePlayerMove} />
+              {this.state.gameStarted && <ControlPanel gameControl={this.state.gameControl} onHandlePlayerMove={this.handlePlayerMove} />}
             </div>
           </div>
           <button className="highScoreButton" onClick={this.showHighScores}>{this.state.showHighScores ? "Hide" : "Show"} High Scores</button>
