@@ -4,7 +4,6 @@ const directions = {
     UP: 'up',
     UP_RIGHT: 'upright',
     DOWN_LEFT: 'downleft',
-    DOWN_RIGHT: 'downright',
     DOWN: 'down',
     DOWN_RIGHT: 'downright'
 }
@@ -38,31 +37,31 @@ class CaveGenerator {
     }
 
     isTop(id) {
-        return id / this.maxCaveWidth == 0;
+        return Math.floor(id / this.maxCaveWidth) === 0;
     }
 
     isBottom(id) {
-        return id / this.maxCaveWidth == this.maxCaveHeight - 1;
+        return Math.floor(id / this.maxCaveWidth) === this.maxCaveHeight - 1;
     }
 
     isLeft(id) {
-        return id % this.maxCaveWidth == 0;
+        return id % this.maxCaveWidth === 0;
     }
 
     isRight(id) {
-        return id % this.maxCaveWidth == this.maxCaveWidth - 1;
+        return id % this.maxCaveWidth === this.maxCaveWidth - 1;
     }
 
     isRoomEven(id) {
-        return id % 2 == 0;
+        return id % 2 === 0;
     }
 
     isWrap(id, direction) {
         const isEven = this.isRoomEven(id);
-        const isTop = Math.floor(id / this.maxCaveWidth) == 0;
-        const isBottom = Math.floor(id / this.maxCaveWidth) == this.maxCaveHeight - 1;
-        const isLeft = id % this.maxCaveWidth == 0;
-        const isRight = id % this.maxCaveWidth == this.maxCaveWidth - 1;
+        const isTop = this.isTop(id);
+        const isBottom = this.isBottom(id);
+        const isLeft = this.isLeft(id);
+        const isRight = this.isRight(id);
 
         switch (direction) {
             case directions.UP_LEFT:
@@ -90,7 +89,7 @@ class CaveGenerator {
         let upLeft, up, upRight, downLeft, down, downRight;
 
         if (this.isWrap(id, directions.UP_LEFT)) {
-            upLeft = isLeft ? id + this.maxCaveWidth * this.maxCaveHeight - 1 : id + this.maxCaveWidth * (this.maxCaveHeight) - 1;
+            upLeft = isLeft ? (isTop ? id + this.maxCaveWidth * this.maxCaveHeight - 1 : id - 1) : id + this.maxCaveWidth * (this.maxCaveHeight - 1) - 1;
         }
         else {
             upLeft = !isEven ? id - 1 : id - this.maxCaveWidth - 1;
@@ -106,7 +105,7 @@ class CaveGenerator {
         }
 
         if (this.isWrap(id, directions.DOWN_LEFT)) {
-            downLeft = isBottom && !isLeft ? id - this.maxCaveWidth * (this.maxCaveHeight - 1) - 1 : id + this.maxCaveWidth - 1;
+            downLeft = (isBottom && !isLeft) ? id - this.maxCaveWidth * (this.maxCaveHeight - 1) - 1 : id + this.maxCaveWidth - 1;
         }
         else {
             downLeft = !isEven ? id + this.maxCaveWidth - 1 : id - 1;
@@ -115,7 +114,7 @@ class CaveGenerator {
         down = this.isWrap(id, directions.DOWN) ? id - this.maxCaveWidth * (this.maxCaveHeight - 1) : id + this.maxCaveWidth;
 
         if (this.isWrap(id, directions.DOWN_RIGHT)) {
-            downRight = isRight ? id - this.maxCaveWidth * this.maxCaveHeight - 1 : id - this.maxCaveWidth * (this.maxCaveHeight - 1) + 1;
+            downRight = isRight ? (isBottom ? id - this.maxCaveWidth * this.maxCaveHeight + 1 : id + 1) : id - this.maxCaveWidth * (this.maxCaveHeight - 1) + 1;
         }
         else {
             downRight = !isEven ? id + this.maxCaveWidth + 1 : id + 1;
