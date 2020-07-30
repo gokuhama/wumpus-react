@@ -1,0 +1,41 @@
+.controlpanel{
+    background: lightgray;
+}
+
+.direction-button{
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* These arrow icomages have the Flaticon license and are free to use. 
+https://www.flaticon.com/free-icon/diagonal-arrow_271231 */
+
+.up-left{
+    background-image: url("https://image.flaticon.com/icons/svg/271/271231.svg");
+    background-size: 80%;
+}
+
+.up{
+    background-image: url("https://image.flaticon.com/icons/svg/271/271237.svg");
+}
+
+.up-right{
+    background-image: url("https://image.flaticon.com/icons/svg/271/271234.svg");
+    background-size: 80%;
+}
+
+.down-left{
+    background-image: url("https://image.flaticon.com/icons/svg/271/271198.svg");
+    background-size: 80%;
+}
+
+.down{
+    background-image: url("https://image.flaticon.com/icons/svg/271/271208.svg");
+}
+
+.down-right{
+    background-image: url("https://image.flaticon.com/icons/svg/271/271201.svg");
+    background-size: 80%;
+}

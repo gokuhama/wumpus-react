@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import HighScoreList from './components/HighScoreList'
 import Cave from "./components/Cave";
 import Player from "./components/Player";
+import ControlPanel from "./components/ControlPanel";
+import GameControl from './scripts/gamecontrol'
+
+
 
 var playerNameInput = React.createRef();
 var scoreInput = React.createRef();
@@ -14,18 +18,19 @@ class App extends Component {
     this.showHighScores();
     this.state = {
       showHighScores: true,
-      scores: []
+      scores: [],
+      gamecontrol: new GameControl()
     };
 
     this.showHighScores = this.showHighScores.bind(this);
     this.updateHighScore = this.updateHighScore.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this._isMounted = true;
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this._isMounted = false;
   }
 
@@ -44,7 +49,12 @@ class App extends Component {
     })
       .then(res => res.json())
       .then((data) => {
-        alert("You received a rank of " + data)
+        if(data > -1){
+          alert("Congratulations on a high score! You are #" + (data + 1));
+        }
+        else{
+          alert("Too bad! You didn't get a high score.");
+        }
       })
       .catch((error) => { alert(error) });
     // const rank = 1;
@@ -85,9 +95,10 @@ class App extends Component {
             <input ref={scoreInput} type="text" />
             <button onClick={this.updateHighScore}>Start Game</button>
             <button onClick={this.showHighScores}>Show High Scores</button>
-            <Cave width={6} height={5}>
-              <Player x={0} y={0} />
+            <Cave width={6} height={5} gamecontrol={this.state.gamecontrol}>
+              <Player roomNumber={this.state.gamecontrol.gameLocations.playerRoomNumber} />
             </Cave>
+            <ControlPanel />
           </div>
         </header>
       </div>

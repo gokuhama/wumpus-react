@@ -47,3 +47,5 @@ class Player {
             + (50 * this._killedTheWumpus);
     }
 }
+
+export default Player

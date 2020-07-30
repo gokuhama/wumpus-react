@@ -20,3 +20,5 @@ class GameLocations {
         this._wumpusRoomNumber = roomNumber;
     }
 }
+
+export default GameLocations

@@ -10,7 +10,8 @@ class Cave extends Component {
 
     this.state = {
       "width": this.props.width,
-      "height": this.props.height
+      "height": this.props.height,
+      "gamecontrol": this.props.gamecontrol,
     }
 
     this.cave = new CaveGenerator(this.state.width, this.state.height);
@@ -18,12 +19,15 @@ class Cave extends Component {
   }
 
   render() {
+    const gameLocations = this.state.gamecontrol.gameLocations;
     return (
       <div className="cave">
         {this.roomRows.map(roomRow => (
           <div key={roomRow.id}>
             {roomRow.rooms.map(room => (
-              <Room key={room.id} model={room} class={room.isEven() ? 'room-even' : 'room-odd'}></Room>
+              <Room key={room.id} model={room} class={room.isEven() ? 'room-even' : 'room-odd'}>
+                {room.id === gameLocations.playerRoomNumber ? this.props.children : null}
+              </Room>
             ))}
           </div>
         ))}

@@ -17,7 +17,10 @@ class Room extends Component {
   render() {
     return (
       // <div class="hexagon hexagon1"><div class="hexagon-in1"><div class="hexagon-in2"></div></div></div>
-    <div className={this.class}>{this.model.id} ({this.model.x},{this.model.y})</div>
+      <div className={this.class}>
+        <span>{this.model.id} ({this.model.x},{this.model.y})</span>
+        {this.props.children}
+      </div>
     );
   }
 }

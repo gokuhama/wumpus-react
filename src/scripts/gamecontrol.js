@@ -1,3 +1,7 @@
+import Player from './player'
+import GameLocations from './gamelocations'
+import TriviaManagement from './triviamanagement'
+
 //
 // this is the game control object
 //
@@ -40,5 +44,6 @@ class GameControl {
     get statusText() {
         return this._statusText;
     }
-
 }
+
+export default GameControl
