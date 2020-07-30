@@ -40,7 +40,7 @@ class RoomModel {
     }
 
     isEven() {
-        return this.id % 2 == 0;
+        return this.id % 2 === 0;
     }
 }
 

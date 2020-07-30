@@ -3,16 +3,6 @@ import HighScoreList from './components/HighScoreList'
 import Cave from "./components/Cave";
 import Player from "./components/Player";
 
-class TextInput extends React.Component {
-  render() {
-    return (
-      <input
-        type="text"
-        value={this.props.text} />
-    )
-  }
-}
-
 var playerNameInput = React.createRef();
 var scoreInput = React.createRef();
 
@@ -90,7 +80,9 @@ class App extends Component {
           <center><h1>Hunt The Wumpus!</h1></center>
           {this.state.showHighScores && <HighScoreList scores={this.state.scores}></HighScoreList>}
           <div>
-            <span>Enter Name:</span><input ref={playerNameInput} type="text" /><input ref={scoreInput} type="text" />
+            <span>Enter Name:</span>
+            <input ref={playerNameInput} type="text" />
+            <input ref={scoreInput} type="text" />
             <button onClick={this.updateHighScore}>Start Game</button>
             <button onClick={this.showHighScores}>Show High Scores</button>
             <Cave width={6} height={5}>
