@@ -11,6 +11,15 @@ var scoreInput = React.createRef();
 const width = 6;
 const height = 5;
 
+const keycodes = {
+  NUM1: 97,
+  NUM2: 98,
+  NUM3: 99,
+  NUM4: 100,
+  NUM5: 101,
+  NUM6: 102
+}
+
 class App extends Component {
 
   constructor() {
@@ -30,10 +39,38 @@ class App extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+    document.addEventListener("keydown", this._handleKeyDown);
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+    document.removeEventListener("keydown", this._handleKeyDown);
+  }
+
+  _handleKeyDown = (event) => {
+    const connectedRooms = this.state.gameControl.connectedRooms;
+    switch (event.keyCode) {
+      case keycodes.NUM1:
+        this.handlePlayerMove(connectedRooms.downLeft);
+        break;
+      case keycodes.NUM2:
+        this.handlePlayerMove(connectedRooms.down);
+        break;
+      case keycodes.NUM3:
+        this.handlePlayerMove(connectedRooms.downRight);
+        break;
+      case keycodes.NUM4:
+        this.handlePlayerMove(connectedRooms.upLeft);
+        break;
+      case keycodes.NUM5:
+        this.handlePlayerMove(connectedRooms.up);
+        break;
+      case keycodes.NUM6:
+        this.handlePlayerMove(connectedRooms.upRight);
+        break;
+      default:
+        break;
+    }
   }
 
   updateHighScore() {
