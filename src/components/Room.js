@@ -16,7 +16,7 @@ class Room extends Component {
 
   render() {
     return (
-      <div className={this.class}>
+      <div className={"room " + this.class}>
         <span>{this.model.id}</span>
         {this.props.children}
       </div>

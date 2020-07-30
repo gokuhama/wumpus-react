@@ -11,6 +11,7 @@ class GameControl {
     constructor(width, height) {
         this._caveGenerator = new CaveGenerator(width, height);
         this._player = new Player();
+        this._player.arrowCount = 3;
         this._gameLocations = new GameLocations();
         this._triviaManagement = new TriviaManagement();
         this._goldCoinsLeft = 100;
