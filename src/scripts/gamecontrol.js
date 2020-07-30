@@ -36,6 +36,10 @@ class GameControl {
         this._connectedRooms = this.getConnectedRooms(0);
     }
 
+    setPlayerName(name){
+        this.player.name = name;
+    }
+
     movePlayerToRoom(newRoomNumber) {
         // update the game locations
         this._gameLocations.playerRoomNumber = newRoomNumber;

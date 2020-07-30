@@ -48,3 +48,19 @@
 .title{
   color: white;
 }
+
+.enterNameLabel{
+  margin-right: 10px;
+}
+
+.enterNameSection{
+  margin: 10px 0px;
+}
+
+.startGameButton{
+  float: left;
+}
+
+.cancelGameButton{
+  float: right;
+}

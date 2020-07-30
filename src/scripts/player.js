@@ -4,11 +4,20 @@
 class Player {
 
     constructor() {
+        this._name = "";
         this._arrowCount = 0;
         this._goldCoins = 0;
         this._numberOfTurns = 0;
         this._currentScore = 0;
         this._killedTheWumpus = 0;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        this._name = name;
     }
 
     get arrowCount() {
@@ -40,10 +49,10 @@ class Player {
     }
 
     GetCurrentScore() {
-        return 100 
-            - this._numberOfTurns 
-            + this._goldCoins 
-            + (5 * this._arrowCount) 
+        return 100
+            - this._numberOfTurns
+            + this._goldCoins
+            + (5 * this._arrowCount)
             + (50 * this._killedTheWumpus);
     }
 }

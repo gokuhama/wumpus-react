@@ -20,7 +20,6 @@ class ControlPanel extends Component {
   }
 
   render() {
-    const currentRoom = this.state.gameControl.gameLocations.playerRoomNumber;
     const connectedRooms = this.state.gameControl.connectedRooms;
     return (
       <div className="controlpanel">

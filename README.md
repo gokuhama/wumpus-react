@@ -71,4 +71,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ### Installed packages
 body-parser
 stylized-components
-
+react-modal

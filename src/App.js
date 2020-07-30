@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Modal from 'react-modal';
 import HighScoreList from './components/HighScoreList'
 import Cave from "./components/Cave";
 import Player from "./components/Player";
@@ -7,7 +8,6 @@ import GameControl from './scripts/gamecontrol'
 import './App.css'
 
 var playerNameInput = React.createRef();
-var scoreInput = React.createRef();
 
 const width = 6;
 const height = 5;
@@ -29,12 +29,16 @@ class App extends Component {
     let gameControl = new GameControl(width, height);
     this.state = {
       gameStarted: false,
+      showEnterName: false,
       showHighScores: false,
       showEndGame: false,
       scores: [],
       gameControl: gameControl,
     };
     this.startGame = this.startGame.bind(this);
+    this.quitGame = this.quitGame.bind(this);
+    this.showEnterName = this.showEnterName.bind(this);
+    this.hideEnterName = this.hideEnterName.bind(this);
     this.showHighScores = this.showHighScores.bind(this);
     this.updateHighScore = this.updateHighScore.bind(this);
     this.handlePlayerMove = this.handlePlayerMove.bind(this);
@@ -76,32 +80,54 @@ class App extends Component {
     }
   }
 
+  showEnterName() {
+    this.setState({
+      showEnterName: true
+    });
+  }
+
+  hideEnterName() {
+    this.setState({
+      showEnterName: false
+    });
+  }
+
   startGame() {
-    if (!this.state.gameStarted) {
-      this.state.gameControl.reset();
-      this.setState({ "gameStarted": true, "showEndGame": false });
-    }
-    else {
-      const score = this.state.gameControl.player.GetCurrentScore();
-      let message = "Your score was " + score + ". ";
-      this.updateHighScore(playerNameInput.current.value, score)
-        .then((data) => {
-          if (data > -1) {
-            message += "Congratulations on a high score! You are #" + (data + 1);
-          }
-          else {
-            message += "Too bad! You didn't get a high score.";
-          }
-          this.setState({ "gameStarted": false, "showEndGame": true, "endGameMessage": message });
+    this.state.gameControl.reset();
+    this.state.gameControl.setPlayerName(playerNameInput.current.value);
+    this.setState({
+      gameStarted: true,
+      showEnterName: false,
+      showEndGame: false
+    });
+
+    alert("Good luck " + playerNameInput.current.value + "!");
+  }
+
+  quitGame() {
+    const score = this.state.gameControl.player.GetCurrentScore();
+    let message = "Your score was " + score + ". ";
+    this.updateHighScore(this.state.gameControl.player.name, score)
+      .then((data) => {
+        if (data > -1) {
+          message += "Congratulations on a high score! You are #" + (data + 1);
+        }
+        else {
+          message += "Too bad! You didn't get a high score.";
+        }
+        this.setState({
+          gameStarted: false,
+          showEndGame: true,
+          endGameMessage: message
         });
-    }
+      });
   }
 
   updateHighScore(playerName, playerScore) {
     const score = {
-      "name": playerName,
-      "score": playerScore,
-      "timestamp": Date.now()
+      name: playerName,
+      score: playerScore,
+      timestamp: Date.now()
     };
     // make api call
     return fetch('http://localhost:8081/setscore', {
@@ -135,8 +161,10 @@ class App extends Component {
         .catch((error) => { console.log(error) });
     }
     else {
-      this.state.showHighScores = false;
-      this.setState({ scores: [] });
+      this.setState({
+        showHighScores: false,
+        scores: []
+      });
     }
   }
 
@@ -148,30 +176,56 @@ class App extends Component {
   }
 
   render() {
+    const customStyles = {
+      content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+      }
+    };
+
+    Modal.setAppElement('#root')
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <center><h1 className="title">Hunt The Wumpus!</h1></center>
+      <>
+        <div className="App">
+          <header className="App-header">
+            <center><h1 className="title">Hunt The Wumpus!</h1></center>
+            <div>
+              <div>
+                {!this.state.gameStarted && <button className="startButton" onClick={this.showEnterName}>New Game</button>}
+                {this.state.gameStarted && <button className="startButton" onClick={this.quitGame}>Quit Game</button>}
+              </div>
+              {this.state.showEndGame && <span className="title">{this.state.endGameMessage}</span>}
+              <div>
+                <Cave width={width} height={height} gameControl={this.state.gameControl}>
+                  {this.state.gameStarted && <Player roomNumber={this.state.gameControl.gameLocations.playerRoomNumber} />}
+                </Cave>
+                {this.state.gameStarted && <ControlPanel gameControl={this.state.gameControl} onHandlePlayerMove={this.handlePlayerMove} />}
+              </div>
+            </div>
+            <button className="highScoreButton" onClick={this.showHighScores}>{this.state.showHighScores ? "Hide" : "Show"} High Scores</button>
+            {this.state.showHighScores && <HighScoreList scores={this.state.scores}></HighScoreList>}
+          </header>
+        </div>
+        <Modal isOpen={this.state.showEnterName} style={customStyles}>
           <div>
-            <div>
-              <span className="title">Enter Name:</span>
-              <input ref={playerNameInput} type="text" />
+            <div className="enterNameSection">
+              <span className="enterNameLabel">Enter Name:</span>
+              <input ref={playerNameInput} type="text" defaultValue={this.state.gameControl.player.name} />
             </div>
-            <div>
-              <button className="startButton" onClick={this.startGame}>{this.state.gameStarted ? "End" : "Start"} Game</button>
-            </div>
-            {this.state.showEndGame && <span className="title">{this.state.endGameMessage}</span>}
-            <div>
-              <Cave width={width} height={height} gameControl={this.state.gameControl}>
-                {this.state.gameStarted && <Player roomNumber={this.state.gameControl.gameLocations.playerRoomNumber} />}
-              </Cave>
-              {this.state.gameStarted && <ControlPanel gameControl={this.state.gameControl} onHandlePlayerMove={this.handlePlayerMove} />}
-            </div>
+            <button className="startGameButton" onClick={this.startGame}>
+              Start Game
+              </button>
+            <button className="cancelGameButton" onClick={this.hideEnterName}>
+              Cancel
+              </button>
           </div>
-          <button className="highScoreButton" onClick={this.showHighScores}>{this.state.showHighScores ? "Hide" : "Show"} High Scores</button>
-          {this.state.showHighScores && <HighScoreList scores={this.state.scores}></HighScoreList>}
-        </header>
-      </div>
+        </Modal>
+      </>
     );
   }
 }
