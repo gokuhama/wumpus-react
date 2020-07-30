@@ -1,0 +1,54 @@
+.list-row{
+    clear: both;
+    margin: auto;
+}
+
+.row-rank{
+    /* border: 1px solid #999999; */
+    font-size: 15px;
+    width: 5%;
+    padding: 0px 5px;
+    float: left;
+    overflow: hidden;
+}
+
+.row-name{
+    /* border: 1px solid #999999; */
+    font-size: 15px;
+    width: 30%;
+    padding: 0px 10px;
+    float: left;
+    overflow: hidden;
+}
+
+.row-score{
+    /* border: 1px solid #999999; */
+    font-size: 15px;
+    width: 10%;
+    padding: 0px 5px;
+    float: right;
+    overflow: hidden;
+}
+
+.list {
+    border: 1px solid #999999;
+    background: lightblue;
+    display: block;
+    width: 20%;
+    height: 100%;
+    float: right;
+    /* position: fixed;
+    top: 0px;
+    right: 0px; */
+    z-index: 100;
+    margin: 10px;
+ }
+
+.list:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+ }

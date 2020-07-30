@@ -1,0 +1,32 @@
+.player {
+    border: 1px solid black;
+    padding: 10px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    /* @media (min-width: 90rem) {
+      grid-template: ${({ width, height }) => `repeat(${width}, 1.5rem) / repeat(${height}, 1.5rem)`};
+    } */
+    /* &.map::before{},
+    &::after {
+      position: absolute;
+      background: red;
+      height: 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0 0.5rem;
+      color: ${colors.green_700};
+      background: ${colors.green_300};
+      border-radius: 2px;
+    } */
+    /* &:before {
+      content: "start";
+      top: 0;
+      right: calc(100% + 0.5rem);
+    }
+    &:after {
+      content: "end";
+      bottom: 0;
+      left: calc(100% + 0.5rem);
+    } */
+}
