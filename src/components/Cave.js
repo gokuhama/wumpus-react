@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Room from './Room';
-import CaveGenerator from '../scripts/cavegenerator'
 import '../css/Cave.css'
 
 class Cave extends Component {

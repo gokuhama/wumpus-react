@@ -16,9 +16,7 @@ class ControlPanel extends Component {
   }
 
   handlePlayerMove(room) {
-    // alert(JSON.stringify(this.state.connectedRooms));
     this.props.onHandlePlayerMove(room);
-    // alert("after " +JSON.stringify(this.state.connectedRooms));
   }
 
   render() {
@@ -36,6 +34,16 @@ class ControlPanel extends Component {
             <button className="direction-button down-left" onClick={() => this.handlePlayerMove(connectedRooms.downLeft)}>{connectedRooms.downLeft}</button>
             <button className="direction-button down" onClick={() => this.handlePlayerMove(connectedRooms.down)}>{connectedRooms.down}</button>
             <button className="direction-button down-right" onClick={() => this.handlePlayerMove(connectedRooms.downRight)}>{connectedRooms.downRight}</button>
+          </div>
+        </div>
+        <div>
+          <div>
+            <span>Coins:</span>
+            <span>{this.state.gameControl.player.goldCoins}</span>
+          </div>
+          <div>
+            <span>Arrows:</span>
+            <span>{this.state.gameControl.player.arrowCount}</span>
           </div>
         </div>
       </div>
